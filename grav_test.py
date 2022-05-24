@@ -16,6 +16,7 @@ platform_list = []
 jpad_list = []
 deathpad_list = []
 dashpad_list = []
+box_list = []
 square = None
 window = tk.Tk()
 window.title("grav test")
@@ -26,7 +27,7 @@ canvas.grid(column=1, row=1)
 square = canvas.create_rectangle(10, 10, 20, 20, fill="#FFB1F9",tag="player")
 endpad = canvas.create_rectangle(580, 110, 590, 120, fill="gold")
 def levels(event=None):
-    global platform_list, jpad_list, endpad_list, dashpad_list, deathpad_list
+    global platform_list, jpad_list, endpad_list, dashpad_list, deathpad_list, box_list
     canvas.delete("level")
     if level == 1:
         platform1 = canvas.create_rectangle(0, topoffblock, cornerofblock, bottomoffblock,
@@ -53,6 +54,7 @@ def levels(event=None):
         dashpad_list = []
         deathpad_list = []
         jpad_list = [jpad1, jpad2]
+        box_list = []
 
     if level == 2:
         platform1 = canvas.create_rectangle(0, topoffblock,cornerofblock,bottomoffblock,fill="gray",tag="level")
@@ -74,6 +76,7 @@ def levels(event=None):
         dashpad_list = []
         deathpad_list = [deathpad1]
         jpad_list = [jpad1, jpad2]
+        box_list = []
     if level == 3:
         platform1 = canvas.create_rectangle(0, topoffblock, cornerofblock, bottomoffblock, fill="gray", tag="level")
         platform2 = canvas.create_rectangle(110, 90, 150, 100, fill="gray", tag="level")
@@ -93,13 +96,23 @@ def levels(event=None):
         dashpad_list = [dash_pad1, dash_pad2, dash_pad3]
         deathpad_list = []
         jpad_list = [jpad1]
-    if level >= 4:
+        box_list = []
+    if level == 4:
+        platform1 = canvas.create_rectangle(0, topoffblock, cornerofblock+100, bottomoffblock, fill="gray", tag="level")
+        box1 = canvas.create_rectangle(40, 90, 50, 100, fill="#7D4C00",outline="orange")
+        platform_list = [platform1,box1]
+        dashpad_list = []
+        deathpad_list = []
+        jpad_list = []
+        box_list = [box1]
+    if level >= 5:
         platform1 = canvas.create_rectangle(0, topoffblock, cornerofblock, bottomoffblock, fill="gray", tag="level")
         
         platform_list = [platform1]
         dashpad_list = []
         deathpad_list = []
         jpad_list = []
+        box_list = []
     endpad = canvas.create_rectangle(580, 110, 590, 120, fill="gold")
 
 label_blank = tk.Label(window,  textvariable = "\n   \n ", bg="gray")
@@ -163,6 +176,13 @@ def start(event=None):
             square_pos[0] < platform_pos[2] - 1 and square_pos[2] > platform_pos[0]):
             canvas.coords(square, square_pos[0], platform_pos[1] - 10, square_pos[2], platform_pos[1])
             yvelocity = 0
+
+    for box in box_list:
+        box_pos = canvas.coords(box)
+        if (square_pos[0] < box_pos[2] - 1 and square_pos[3] >= box_pos[1]
+            and square_pos[2] > box_pos[0] and square_pos[3] <= box_pos[1]):
+            if interacted == 1:
+                print("test")
 
     for jpad in jpad_list:
         jpad_pos = canvas.coords(jpad)
@@ -332,3 +352,4 @@ if __name__=="__main__":
 # Added a space after every comma, not necessary, but looks nicer.
 # Added "dashpad_list" to global variables, this fixed the bug with dashpads not being checked
 # renamed "dashpad" function to "do_dashpad" as it was clashing with "dashpad" object in list call
+
