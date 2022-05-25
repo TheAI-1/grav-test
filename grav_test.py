@@ -12,6 +12,7 @@ xvelocity = 10
 yvelocity = 5
 dashcooldown = 0
 movecooldown = 0
+heldbox = 0
 platform_list = []
 jpad_list = []
 deathpad_list = []
@@ -99,7 +100,7 @@ def levels(event=None):
         box_list = []
     if level == 4:
         platform1 = canvas.create_rectangle(0, topoffblock, cornerofblock+100, bottomoffblock, fill="gray", tag="level")
-        box1 = canvas.create_rectangle(40, 90, 50, 100, fill="#7D4C00",outline="orange")
+        box1 = canvas.create_rectangle(40, 90, 50, 100, fill="#7D4C00",outline="orange",tag="level")
         platform_list = [platform1,box1]
         dashpad_list = []
         deathpad_list = []
@@ -153,7 +154,7 @@ def grav(event=None):
 def end(event=None):
     exit()
 def start(event=None):
-    global square, yvelocity, square_pos, platform_pos, dashcooldown, level, endpad, movecooldown, right, left, gravity_strength, interacted
+    global square, yvelocity, square_pos, platform_pos, dashcooldown, level, endpad, movecooldown, right, left, gravity_strength, interacted, heldbox
 
     if level == 0:
         level = 1
@@ -182,7 +183,13 @@ def start(event=None):
         if (square_pos[0] < box_pos[2] - 1 and square_pos[3] >= box_pos[1]
             and square_pos[2] > box_pos[0] and square_pos[3] <= box_pos[1]):
             if interacted == 1:
-                print("test")
+                if heldbox == 0:
+                    heldbox = 1
+                    print(heldbox)
+            if interacted == 1:
+                if heldbox == 1:
+                    heldbox = 0
+                    print(heldbox)
 
     for jpad in jpad_list:
         jpad_pos = canvas.coords(jpad)
@@ -352,4 +359,3 @@ if __name__=="__main__":
 # Added a space after every comma, not necessary, but looks nicer.
 # Added "dashpad_list" to global variables, this fixed the bug with dashpads not being checked
 # renamed "dashpad" function to "do_dashpad" as it was clashing with "dashpad" object in list call
-
