@@ -101,11 +101,12 @@ def levels(event=None):
     if level == 4:
         platform1 = canvas.create_rectangle(0, topoffblock, cornerofblock+100, bottomoffblock, fill="gray", tag="level")
         box1 = canvas.create_rectangle(40, 90, 50, 100, fill="#7D4C00",outline="orange",tag="level")
-        platform_list = [platform1,box1]
+        box2 = canvas.create_rectangle(70, 90, 80, 100, fill="#7D4C00",outline="orange",tag="level")
+        platform_list = [platform1,box1,box2]
         dashpad_list = []
         deathpad_list = []
         jpad_list = []
-        box_list = [box1]
+        box_list = [box1,box2]
     if level >= 5:
         platform1 = canvas.create_rectangle(0, topoffblock, cornerofblock, bottomoffblock, fill="gray", tag="level")
         
@@ -186,10 +187,13 @@ def start(event=None):
                 if heldbox == 0:
                     heldbox = 1
                     print(heldbox)
-            if interacted == 1:
-                if heldbox == 1:
+                    canvas.itemconfig(box, fill='red')
+                else:
                     heldbox = 0
                     print(heldbox)
+                    canvas.itemconfig(box, fill="#7D4C00",outline="orange")
+            
+            
 
     for jpad in jpad_list:
         jpad_pos = canvas.coords(jpad)
